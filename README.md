@@ -1,6 +1,6 @@
 # 💱 Currency Converter
 
-A minimalist, responsive web app for real-time currency conversion.
+A minimalist, responsive web app for real-time currency conversion. [Live Demo](https://currency-converter-iwkg.onrender.com/)
 
 ---
 
