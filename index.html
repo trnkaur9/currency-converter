@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Conversion Portal</title>
+    <link rel="stylesheet" href="tk_app.css">
+</head>
+
+<body>
+    <div id="details">
+        <h2>Author - 991755833, Taranjit Kaur</h2>
+        <h3>Professor - Sukhbir Tatla</h3>
+    </div>
+
+    <form action="" onsubmit="event.preventDefault()" class="flexbox">
+        <div id="container">
+
+            <h2>Welcome To Currency Conversion Portal</h2>
+
+            <div id="infobox">
+                <div>
+                    <label for="amount">Enter Number:</label>
+                    <input type="text" name="amount" id="amount" class="inputs">
+                </div>
+                <div>
+                    <label for="haveCurrency">Select Currency You Have:</label>
+                    <select id="haveCurrency" name="haveCurrency" class="inputs">
+                        <option value selected disabled>Select Currency</option>
+                        <option value="usd">USD</option>
+                        <option value="cad">CAD</option>
+                        <option value="franc">Franc</option>
+                        <option value="euro">Euro</option>
+                        <option value="pound">Pound</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="wantCurrency">Select Currency You Want:</label>
+                    <select id="wantCurrency" name="wantCurrency" class="inputs">
+                        <option value selected disabled>Select Currency</option>
+                        <option value="usd">USD</option>
+                        <option value="cad">CAD</option>
+                        <option value="franc">Franc</option>
+                        <option value="euro">Euro</option>
+                        <option value="pound">Pound</option>
+                    </select>
+                </div>
+
+                <div id="btnbox" class="flexbox">
+                    <button type="submit" id="calculatebutton">Calculate</button>
+                    <button id="resetbutton">Clear</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <p id="result">Result:</p>
+</body>
+<script>
+    document.getElementById("resetbutton").addEventListener("click", () => {
+        amount.value = "";
+        result.style.color = "black";
+        result.innerText = "Result:";
+
+        haveCurrency.value = "";
+        wantCurrency.value = "";
+
+        amount.focus();
+    });
+
+    document.getElementById("calculatebutton").addEventListener("click", async () => {
+        let response = await fetch("/convert", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ amount: amount.value, haveCurrency: haveCurrency.value, wantCurrency: wantCurrency.value })
+        });
+
+        let data = await response.json()
+
+        if (data.error) {
+            result.innerText = data.error.toUpperCase();
+            result.style.color = "red";
+        } else {
+            result.innerText = "Result: " + data.message.toUpperCase();
+            result.style.color = "black";
+        }
+    });
+</script>
+
+</html>
